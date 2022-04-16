@@ -13,7 +13,7 @@
 		"keywords": {
 			"patterns": [{
 				"name": "keyword.control.cfif",
-				"match": "\\b(if|while|for|return)\\b"
+				"match": "\\b(TITLE|RUNTIME|OUTPUT|PRIMARY_SPECIES|SECONDARY_SPECIES|GASES|MINERALS|AQUEOUS_KINETICS|ION_EXCHANGE|SURFACE_COMPLEXATION|PEST|DISCRETIZATION|INITIAL_CONDITIONS|BOUNDARY_CONDITIONS|TRANSPORT|FLOW|POROSITY|TEMPERATURE|CONDITION|END)\\b"
 			}]
 		},
 		"strings": {
