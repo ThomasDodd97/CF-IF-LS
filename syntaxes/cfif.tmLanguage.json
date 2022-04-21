@@ -2,52 +2,38 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "CrunchFlow In-File Programming Language",
 	"patterns": [
-		{
-			"include": "#keywords"
-		},
-		{
-			"include": "#units"
-		},
-		{
-			"include": "#parameters"
-		},
-		{
-			"include": "#comments"
-		},
-		{
-			"include": "#single-quotes"
-		},
-		{
-			"include": "#double-quotes"
-		}
+		{"include": "#title_block"},
+		{"include": "#runtime_block"}
 	],
 	"repository": {
-		"keywords": {
-			"name": "keyword.other",
-			"match": "\\b(TITLE|RUNTIME|OUTPUT|PRIMARY_SPECIES|SECONDARY_SPECIES|GASES|MINERALS|AQUEOUS_KINETICS|ION_EXCHANGE|SURFACE_COMPLEXATION|PEST|DISCRETIZATION|INITIAL_CONDITIONS|BOUNDARY_CONDITIONS|TRANSPORT|FLOW|POROSITY|TEMPERATURE|CONDITION|END)\\b"
+		"title_block": {
+			"patterns": [
+				{"include": "#title_block_extent"}
+			],
+			"repository": {
+				"title_block_extent": {
+					"begin": "TITLE",
+					"end": "END",
+					"contentName": "keyword"
+				}
+			}
 		},
-		"units": {
-			"name": "support.function",
-			"match": "\\b(meters|m|kilometers|km|centimeters|cm|millimeters|mm|micrometers|um|years|days|hours|minutes|seconds)\\b"
-		},
-		"parameters": {
-			"name": "support.class",
-			"match": "\\b(coordinate|correction_max|Courant_number|database|database_sweep|debye-huckel|density_module|dissolution_max|fix_saturation|generic_rates|gimrt|gimrt_pc|gimrt_pclevel|gimrt_solver|graphics|hindmarsh|lag_activity|later_inputfiles|master|OvershootTolerance|pc|pclevel|precipitation_max|reaction_path|read_SaturationFile|restart|save_restart|screen_output|solver|speciate_only|steady_state|timestep_max|timestep_init|time_tolerance|time_units|spatial_profile|time_series|time_series_print|time_series_interval|time_series_output|MakeMovie|xzones|yzones|zzones|x_begin|x_end|y_begin|y_end|z_begin|z_end|fix_diffusion|calculate_diffusion|cementation_exponent|formation_factor|diffusion_activation|D_25|gas_diffusion|dispersivity|constant_tortuosity|read_TortuosityFile|tortuosity|anisotropy_ratioY|anisotropy_ratioZ|threshold_porosity|tortuosity_below|tortuosity_above|constant_flow|constant_gasflow|pump|gaspump|infiltration|read_VelocityFile|read_GasVelocityFile|calculate_flow|read_PermeabilityFile|permeability_x|permeability_y|permeability_z|gravity|pressure|initialize_hydrostatic|)\\b"
-		},
-		"comments": {
-			"name": "comment.line.character",
-			"begin": "!",
-			"end": "\n"
-		},
-		"single-quotes": {
-			"name": "string.quoted.single",
-			"begin": "'",
-			"end": "'"
-		},
-		"double-quotes": {
-			"name": "string.quoted.double",
-			"begin": "\"",
-			"end": "\""
+		"runtime_block": {
+			"patterns": [
+				{"include": "#runtime_block_extent"}
+			],
+			"repository": {
+				"runtime_block_extent": {
+					"begin": "RUNTIME",
+					"end": "END",
+					"patterns": [
+						{
+							"name": "keyword.other",
+							"match": "(time_units|timestep_max)"
+						}
+					]
+				}
+			}
 		}
 	},
 	"scopeName": "source.in"
