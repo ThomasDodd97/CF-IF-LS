@@ -1,43 +1,383 @@
 {
-	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "CrunchFlow In-File Programming Language",
 	"patterns": [
 		{"include": "#title_block"},
-		{"include": "#runtime_block"}
+		{"include": "#runtime_block"},
+		{"include": "#output_block"},
+		{"include": "#discretization_block"},
+		{"include": "#primary_species_block"},
+		{"include": "#secondary_species_block"},
+		{"include": "#gases_block"},
+		{"include": "#minerals_block"},
+		{"include": "#aqueous_kinetics_block"},
+		{"include": "#ion_exchange_block"},
+		{"include": "#surface_complexation_block"},
+		{"include": "#conditions_block"},
+		{"include": "#initial_conditions_block"},
+		{"include": "#boundary_conditions_block"},
+		{"include": "#transport_block"},
+		{"include": "#temperature_block"},
+		{"include": "#porosity_block"},
+		{"include": "#pest_block"},
+		{"include": "#erosion_block"}
 	],
 	"repository": {
 		"title_block": {
-			"patterns": [
-				{"include": "#title_block_extent"}
-			],
-			"repository": {
-				"title_block_extent": {
-					"begin": "TITLE",
-					"end": "END",
-					"contentName": "keyword"
-				}
-			}
+			"begin": "TITLE",
+			"end": "END",
+			"contentName": "keyword",
+			"//comment_minus-one": "^ Title-code-block extent"
 		},
 		"runtime_block": {
+			"begin": "RUNTIME",
+			"end": "END",
 			"patterns": [
-				{"include": "#runtime_block_extent"}
-			],
-			"repository": {
-				"runtime_block_extent": {
-					"begin": "RUNTIME",
-					"end": "END",
-					"patterns": [
-						{
-							"name": "keyword.other",
-							"match": "\\b(coordinate|correction_max|Courant_number|database|database_sweep|debye-huckel|density_module|dissolution_max|fix_saturation|generic_rates|gimrt|gimrt_pc|gimrt_pclevel|gimrt_solver|graphics|hindmarsh|lag_activity|later_inputfiles|master|OvershootTolerance|pc|pclevel|precipitation_max|reaction_path|read_SaturationFile|restart|save_restart|screen_output|solver|speciate_only|steady_state|timestep_max|timestep_init|time_tolerance|time_units|spatial_profile|time_series|time_series_print|time_series_interval|time_series_output|MakeMovie|xzones|yzones|zzones|x_begin|x_end|y_begin|y_end|z_begin|z_end|fix_diffusion|calculate_diffusion|cementation_exponent|formation_factor|diffusion_activation|D_25|gas_diffusion|dispersivity|constant_tortuosity|read_TortuosityFile|tortuosity|anisotropy_ratioY|anisotropy_ratioZ|threshold_porosity|tortuosity_below|tortuosity_above|constant_flow|constant_gasflow|pump|gaspump|infiltration|read_VelocityFile|read_GasVelocityFile|calculate_flow|read_PermeabilityFile|permeability_x|permeability_y|permeability_z|gravity|pressure|initialize_hydrostatic)\\b"
-						},
-						{
-							"name": "support.function",
-							"match": "\\b(meters|kilometers|centimeters|millimeters|micrometers|years|days|hours|minutes|seconds)\\b"
-						}
-					]
+				{
+					"name": "keyword.other",
+					"match": "\\b(coordinate|correction_max|Courant_number|database|database_sweep|debye_huckel logical|density_module|dissolution_max|fix_saturation|generic_rates|gimrt|gimrt_pc|gimrt_pclevel|gimrt_solver|graphics|hindmarsh|lag_activity|later_inputfiles|master|OvershootTolerance|pc|pclevel|reaction_path|read_SaturationFile|restart|save_restart|screen_output|solver|speciate_only|steady_state|timestep_max|timestep_init|time_tolerance|time_units)\\b",
+					"//comment_one": "^ Runtime-code-block parameters"
+				},
+				{
+					"name": "support.function",
+					"match": "\\b(meters|m|kilometers|km|centimeters|cm|millimeters|mm|micrometers|um|years|days|hours|minutes|seconds)\\b",
+					"//comment_two": "^ Runtime-code-block distance/time units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_three": "^ Runtime-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_four": "^ Runtime-code-block commenting"
 				}
-			}
+			]
+		},
+		"output_block": {
+			"begin": "OUTPUT",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(time_series|time_series_print|time_series_interval|time_series_output|MakeMovie|time_units|spatial_profile)\\b",
+					"//comment_five": "^ Output-code-block parameters"
+				},
+				{
+					"name": "support.function",
+					"match": "\\b(meters|m|kilometers|km|centimeters|cm|millimeters|mm|micrometers|um|years|days|hours|minutes|seconds)\\b",
+					"//comment_six": "^ Output-code-block distance/time units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_seven": "^ Output-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_eight": "^ Output-code-block commenting"
+				}
+			]
+		},
+		"discretization_block": {
+			"begin": "DISCRETIZATION",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(xzones|yzones|zzones|distance_units)\\b",
+					"//comment_nine": "^ Discretization-code-block parameters"
+				},
+				{
+					"name": "support.function",
+					"match": "\\b(meters|m|kilometers|km|centimeters|cm|millimeters|mm|micrometers|um|years|days|hours|minutes|seconds)\\b",
+					"//comment_ten": "^ Discretization-code-block distance/time units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_eleven": "^ Discretization-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_twelve": "^ Discretization-code-block commenting"
+				}
+			]
+		},
+		"primary_species_block": {
+			"begin": "PRIMARY_SPECIES",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_thirteen": "^ Primary_Species-code-block commenting"
+				}
+			]
+		},
+		"secondary_species_block": {
+			"begin": "SECONDARY_SPECIES",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_fourteen": "^ Secondary_Species-code-block commenting"
+				}
+			]
+		},
+		"gases_block": {
+			"begin": "GASES",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_fifteen": "^ Gases-code-block commenting"
+				}
+			]
+		},
+		"minerals_block": {
+			"begin": "MINERALS",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_sixteen": "^ Minerals-code-block commenting"
+				}
+			]
+		},
+		"aqueous_kinetics_block": {
+			"begin": "AQUEOUS_KINETICS",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_seventeen": "^ Aqueous_kinetics-code-block commenting"
+				}
+			]
+		},
+		"ion_exchange_block": {
+			"begin": "ION_EXCHANGE",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_eighteen": "^ Ion_exchange-code-block commenting"
+				}
+			]
+		},
+		"surface_complexation_block": {
+			"begin": "SURFACE_COMPLEXATION",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_nineteen": "^ Surface_complexation-code-block commenting"
+				}
+			]
+		},
+		"conditions_block": {
+			"begin": "CONDITION",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(units|equilibrate_surface|temperature|set_porosity|set_saturation)\\b",
+					"//comment_twenty": "^ Conditions-code-block parameters"
+				},
+				{
+					"name": "string",
+					"match": "\\b(mol/kg|mmol/kg|umol/kg|ppm)\\b",
+					"//comment_twentyone": "^ Conditions-code-block specialist units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_twentytwo": "^ Conditions-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_twentythree": "^ Conditions-code-block commenting"
+				}
+			]
+		},
+		"initial_conditions_block": {
+			"begin": "INITIAL_CONDITIONS",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_twentyfour": "^ Initial_conditions-code-block commenting"
+				}
+			]
+		},
+		"boundary_conditions_block": {
+			"begin": "BOUNDARY_CONDITIONS",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(x_begin|x_end|y_begin|y_end|z_begin|z_end)\\b",
+					"//comment_twentyfive": "^ Boundary_conditions-code-block parameters"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_twentyeight": "^ Boundary_conditions-code-block commenting"
+				}
+			]
+		},
+		"transport_block": {
+			"begin": "TRANSPORT",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(fix_diffusion|calculate_diffusion|cementation_exponent|formation_factor|diffusion_threshold|D_25 species_name|gas_diffusion|dispersivity|constant_tortuosity|read_TortuosityFile|tortuosity|anisotropy_ratioY|anisotropy_ratioZ|threshold_porosity|tortuosity_below|tortuosity_above|constant_flow|constant_gasflow|pump|gaspump|infiltration|read_VelocityFile|read_GasVelocityFile|calculate_flow|read_PermeabilityFile|permeability_x|permeability_y|permeability_z|gravity|pressure|initialize_hydrostatic|time_units|distance_units)\\b",
+					"//comment_twentynine": "^ Transport-code-block parameters"
+				},
+				{
+					"name": "support.function",
+					"match": "\\b(meters|m|kilometers|km|centimeters|cm|millimeters|mm|micrometers|um|years|days|hours|minutes|seconds)\\b",
+					"//comment_thirty": "^ Transport-code-block distance/time units"
+				},
+				{
+					"name": "string",
+					"match": "\\b(mol/kg|mmol/kg|umol/kg|ppm)\\b",
+					"//comment_thirtyone": "^ Transport-code-block specialist units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_thirtytwo": "^ Transport-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_thirtythree": "^ Transport-code-block commenting"
+				}
+			]
+		},
+		"temperature_block": {
+			"begin": "TEMPERATURE",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(set_temperature|temperature_gradient|read_temperatureFile)\\b",
+					"//comment_thirtyfour": "^ temperature-code-block parameters"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_thirtyfive": "^ temperature-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_thirtysix": "^ temperature-code-block commenting"
+				}
+			]
+		},
+		"porosity_block": {
+			"begin": "POROSITY",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(fix_porosity|minimum_porosity|porosity_update|read_PorosityFile|distance_units|time_units)\\b",
+					"//comment_thirtyseven": "^ Porosity-code-block parameters"
+				},
+				{
+					"name": "support.function",
+					"match": "\\b(meters|m|kilometers|km|centimeters|cm|millimeters|mm|micrometers|um|years|days|hours|minutes|seconds)\\b",
+					"//comment_thirtyeight": "^ Porosity-code-block distance/time units"
+				},
+				{
+					"name": "string",
+					"match": "\\b(mol/kg|mmol/kg|umol/kg|ppm)\\b",
+					"//comment_thirtynine": "^ Porosity-code-block specialist units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_fourty": "^ Porosity-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_fourtyone": "^ Porosity-code-block commenting"
+				}
+			]
+		},
+		"pest_block": {
+			"begin": "PEST",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(CreatePestInstructionsFile|CreatePestInstructionFile|Exchange)\\b",
+					"//comment_fourtytwo": "^ Pest-code-block parameters"
+				},
+				{
+					"name": "string",
+					"match": "\\b(mol/g|mmol/g|umol/g|equiv/g|mequiv/g|uequiv/g)\\b",
+					"//comment_fourtythree": "^ Pest-code-block other specialist units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_fourtyfour": "^ Pest-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_fourtyfive": "^ Pest-code-block commenting"
+				}
+			]
+		},
+		"erosion_block": {
+			"begin": "EROSION",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(read_BurialFile)\\b",
+					"//comment_fourty": "^ Erosion-code-block parameters"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_fourtyfive": "^ Erosion-code-block commenting"
+				}
+			]
 		}
 	},
 	"scopeName": "source.in"
