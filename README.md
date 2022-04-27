@@ -2,7 +2,7 @@
 
 This is the README for the CF-IF-LS i.e. the CrunchFlow In-File Language-Support extension for VS Code.
 
-Curently, this VS Code extension is able to provide high-level syntax highlighting.
+Currently, this VS Code extension is able to provide high-level syntax highlighting.
 
 ## Features
 

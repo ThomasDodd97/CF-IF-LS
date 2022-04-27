@@ -16,10 +16,12 @@
 		{"include": "#initial_conditions_block"},
 		{"include": "#boundary_conditions_block"},
 		{"include": "#transport_block"},
+		{"include": "#flow_block"},
 		{"include": "#temperature_block"},
 		{"include": "#porosity_block"},
 		{"include": "#pest_block"},
-		{"include": "#erosion_block"}
+		{"include": "#erosion_block"},
+		{"include": "#testing_block"}
 	],
 	"repository": {
 		"title_block": {
@@ -281,6 +283,38 @@
 				}
 			]
 		},
+		"flow_block": {
+			"begin": "FLOW",
+			"end": "END",
+			"patterns": [
+				{
+					"name": "keyword.other",
+					"match": "\\b(constant_flow|constant_gasflow|pump|gaspump|infiltration|read_VelocityFile|read_GasVelocityFile|calculate_flow|read_PermeabilityFile|permeability_x|permeability_y|permeability_z|gravity|pressure|initialize_hydrostatic|time_units|distance_units)\\b",
+					"//comment_fourtysix": "^ Flow-code-block parameters"
+				},
+				{
+					"name": "support.function",
+					"match": "\\b(meters|m|kilometers|km|centimeters|cm|millimeters|mm|micrometers|um|years|days|hours|minutes|seconds)\\b",
+					"//comment_fourtyseven": "^ Flow-code-block distance/time units"
+				},
+				{
+					"name": "string",
+					"match": "\\b(mol/kg|mmol/kg|umol/kg|ppm)\\b",
+					"//comment_fourtyeight": "^ Flow-code-block specialist units"
+				},
+				{
+					"name": "support.class",
+					"match": "\\b(true|false)\\b",
+					"//comment_fourtynine": "^ Flow-code-block booleans"
+				},
+				{
+					"name": "comment.line.character",
+					"begin": "!",
+					"end": "\n",
+					"//comment_fifty": "^ Flow-code-block commenting"
+				}
+			]
+		},
 		"temperature_block": {
 			"begin": "TEMPERATURE",
 			"end": "END",
@@ -378,6 +412,20 @@
 					"//comment_fourtyfive": "^ Erosion-code-block commenting"
 				}
 			]
+		},
+		"testing_block": {
+			"begin": "(TESTING)",
+			"end": "(END)",
+			"patterns": [
+				{"include": "#coordinate_parameter"}
+			]
+		},
+		"coordinate_parameter": {
+			"match": "(coordinate)(\\s+?)(rectangular|cylindrical|spherical)",
+			"captures": {
+				"1": {"name": "keyword.other"},
+				"3": {"name": "keyword"}
+			}
 		}
 	},
 	"scopeName": "source.in"
